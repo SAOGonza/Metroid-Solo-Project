@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D playerRb;
     public Transform groundPoint;
     public LayerMask whatIsGround;
+    public Animator anim;
 
     // Variables
     public float moveSpeed;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer();
         JumpPlayer();
+        ControlAnimations();
     }
 
     void MovePlayer()
@@ -41,5 +43,11 @@ public class PlayerController : MonoBehaviour
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
         }
+    }
+
+    void ControlAnimations()
+    {
+        anim.SetBool("isOnGround", isOnGround);
+        anim.SetFloat("speed", Mathf.Abs(playerRb.velocity.x)); // Abs = number w/out a positive nor negative.
     }
 }

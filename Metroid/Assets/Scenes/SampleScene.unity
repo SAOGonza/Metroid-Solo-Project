@@ -356,6 +356,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  anim: {fileID: 2139570973}
   moveSpeed: 8
   jumpForce: 20
 --- !u!1 &1922953248
@@ -2227,8 +2228,9 @@ GameObject:
   - component: {fileID: 2139570969}
   - component: {fileID: 2139570971}
   - component: {fileID: 2139570972}
+  - component: {fileID: 2139570973}
   m_Layer: 0
-  m_Name: Player Standing Still
+  m_Name: Standing Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2317,3 +2319,24 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.3}
   m_Size: {x: 0.85, y: 2.404481}
   m_Direction: 0
+--- !u!95 &2139570973
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139570968}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f00f079b7d8004245b0ecef94ac25470, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
