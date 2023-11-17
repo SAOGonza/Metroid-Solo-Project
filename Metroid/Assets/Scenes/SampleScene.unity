@@ -168,6 +168,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &321515131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 321515132}
+  m_Layer: 8
+  m_Name: Bomb Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &321515132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321515131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.262, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1175311532}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &471055151
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +341,7 @@ GameObject:
   - component: {fileID: 527276698}
   - component: {fileID: 527276697}
   - component: {fileID: 527276700}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ball Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,9 +576,9 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 5
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!4 &1175311532
 Transform:
@@ -565,6 +596,7 @@ Transform:
   - {fileID: 527276699}
   - {fileID: 636896908}
   - {fileID: 471055152}
+  - {fileID: 321515132}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -602,6 +634,8 @@ MonoBehaviour:
   ball: {fileID: 527276696}
   waitToBall: 0.5
   ballAnim: {fileID: 527276700}
+  bombPoint: {fileID: 321515132}
+  bomb: {fileID: 8961021611839864592, guid: b0cc9fb31dc1561478ca644927183bb9, type: 3}
 --- !u!1 &1922953248
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,14 +716,6 @@ CompositeCollider2D:
         Y: 30000000
       - X: 130000000
         Y: -20000000
-      - X: 180000000
-        Y: -20000000
-      - X: 180000000
-        Y: 20000000
-      - X: 240000000
-        Y: 20000000
-      - X: 240000000
-        Y: -20000000
       - X: 250000000
         Y: -20000000
       - X: 250000000
@@ -741,10 +767,6 @@ CompositeCollider2D:
       - {x: 23.999971, y: 3}
       - {x: 13, y: 2.999971}
       - {x: 13.00003, y: -2}
-      - {x: 18, y: -1.9999708}
-      - {x: 18.000029, y: 2}
-      - {x: 24, y: 1.9999707}
-      - {x: 24.000029, y: -2}
       - {x: 25, y: -1.9999708}
       - {x: 25.000029, y: 9}
       - {x: 38, y: 8.99997}

@@ -41,6 +41,10 @@ public class PlayerController : MonoBehaviour
     private float ballCounter;
     public Animator ballAnim;
 
+    // Bomb drop variables
+    public Transform bombPoint;
+    public GameObject bomb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -211,9 +215,17 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDir = new Vector2(transform.localScale.x, 0f);
+            if (standing.activeSelf)
+            {
+                Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDir = new Vector2(transform.localScale.x, 0f);
 
-            anim.SetTrigger("shotFired");
+                anim.SetTrigger("shotFired");
+            }
+
+            else if (ball.activeSelf)
+            {
+                Instantiate(bomb, bombPoint.position, bombPoint.rotation);
+            }
         }
     }
 
