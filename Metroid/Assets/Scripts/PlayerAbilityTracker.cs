@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class PlayerAbilityTracker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Variables to keep track of abilities.
+    public bool canDoubleJump, canDash, canBecomeBall, canDropBomb;
 }

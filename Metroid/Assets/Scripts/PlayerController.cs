@@ -45,10 +45,13 @@ public class PlayerController : MonoBehaviour
     public Transform bombPoint;
     public GameObject bomb;
 
+    // References to PlayerAbilityTracker script
+    private PlayerAbilityTracker abilities;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        abilities = GetComponent<PlayerAbilityTracker>();
     }
 
     // Update is called once per frame
@@ -71,7 +74,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             // Let player dash on RMB click.
-            if (Input.GetButtonDown("Fire2") && standing.activeSelf) // Only dash if standing.
+            if (Input.GetButtonDown("Fire2") && standing.activeSelf && abilities.canDash) // Only dash if standing.
             {
                 dashCounter = dashTime;
 
@@ -124,7 +127,7 @@ public class PlayerController : MonoBehaviour
         isOnGround = Physics2D.OverlapCircle(groundPoint.position, groundPointRadius, whatIsGround);
 
         // Jumping.
-        if (Input.GetButtonDown("Jump") && (isOnGround || canDoubleJump))
+        if (Input.GetButtonDown("Jump") && (isOnGround || (canDoubleJump && abilities.canDoubleJump)))
         {
             // Check to let player double jump
             if (isOnGround)
@@ -147,7 +150,7 @@ public class PlayerController : MonoBehaviour
         // then get our vertical inputs to become a ball.
         if (!ball.activeSelf)
         {
-            if (Input.GetAxisRaw("Vertical") < -.9f)
+            if (Input.GetAxisRaw("Vertical") < -.9f && abilities.canBecomeBall)
             {
                 // Begin transition to the ball. Count down
                 // so that we become a ball if player holds button
@@ -222,7 +225,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetTrigger("shotFired");
             }
 
-            else if (ball.activeSelf)
+            else if (ball.activeSelf && abilities.canDropBomb)
             {
                 Instantiate(bomb, bombPoint.position, bombPoint.rotation);
             }
