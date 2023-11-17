@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 527276699}
   - component: {fileID: 527276698}
   - component: {fileID: 527276697}
+  - component: {fileID: 527276700}
   m_Layer: 0
   m_Name: Ball Sprite
   m_TagString: Untagged
@@ -325,7 +326,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 527276696}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b81e96f1247953f45a8bae05bd6dc971, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -399,6 +400,27 @@ Transform:
   m_Father: {fileID: 1175311532}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &527276700
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527276696}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 139c9a3e69012fa47a0157ac3f98d45e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &636896907
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +601,7 @@ MonoBehaviour:
   standing: {fileID: 2139570968}
   ball: {fileID: 527276696}
   waitToBall: 0.5
+  ballAnim: {fileID: 527276700}
 --- !u!1 &1922953248
 GameObject:
   m_ObjectHideFlags: 0

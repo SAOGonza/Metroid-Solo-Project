@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public GameObject standing, ball;
     public float waitToBall;
     private float ballCounter;
+    public Animator ballAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -191,8 +192,19 @@ public class PlayerController : MonoBehaviour
 
     void ControlAnimations()
     {
-        anim.SetBool("isOnGround", isOnGround);
-        anim.SetFloat("speed", Mathf.Abs(playerRb.velocity.x)); // Abs = number w/out a positive nor negative.
+        // Standing animations.
+        if (standing.activeSelf)
+        {
+            anim.SetBool("isOnGround", isOnGround);
+            anim.SetFloat("speed", Mathf.Abs(playerRb.velocity.x)); // Abs = number w/out a positive nor negative.
+        }
+        
+        // Ball animations.
+        if (ball.activeSelf)
+        {
+            ballAnim.SetFloat("speed", Mathf.Abs(playerRb.velocity.x));
+        }
+        
     }
 
     void HandleFire()
