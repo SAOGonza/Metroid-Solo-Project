@@ -8,6 +8,10 @@ public class BombController : MonoBehaviour
     public float timeToExplode = 1.5f;
     public GameObject explosion;
 
+    // Obstacle destructible variables.
+    public float blastRange;
+    public LayerMask whatIsDestructible;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,23 @@ public class BombController : MonoBehaviour
                 Instantiate(explosion, transform.position, transform.rotation);
             }
             Destroy(gameObject);
+
+            // Destroy objects that can be destroyed.
+            RemoveDestructibleObjects();
+        }
+    }
+
+    void RemoveDestructibleObjects()
+    {
+        // Get an array of everything that has a Destructible layer
+        // within our range and destroy the object & remove from our scene.
+        Collider2D[] objectsToRemove = Physics2D.OverlapCircleAll(transform.position, blastRange, whatIsDestructible); // OverlapCircleAll gives an array of collider objects.
+        if (objectsToRemove.Length > 0)
+        {
+            foreach (Collider2D col in objectsToRemove)
+            {
+                Destroy(col.gameObject);
+            }
         }
     }
 }
