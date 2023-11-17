@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private bool isOnGround;
     private float groundPointRadius = .2f;
 
+    // Double jump variables
+    private bool canDoubleJump;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,8 +60,19 @@ public class PlayerController : MonoBehaviour
         isOnGround = Physics2D.OverlapCircle(groundPoint.position, groundPointRadius, whatIsGround);
 
         // Jumping.
-        if (Input.GetButtonDown("Jump") && isOnGround)
+        if (Input.GetButtonDown("Jump") && (isOnGround || canDoubleJump))
         {
+            // Check to let player double jump
+            if (isOnGround)
+            {
+                canDoubleJump = true;
+            }
+            else
+            {
+                canDoubleJump = false;
+                anim.SetTrigger("doubleJump");
+            }
+
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
         }
     }
