@@ -1494,6 +1494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitToRespawn: 1.5
+  deathEffect: {fileID: 5966696871767609805, guid: 03b80c2e504a2d4479d67d6860b17d09, type: 3}
 --- !u!4 &803044978
 Transform:
   m_ObjectHideFlags: 0

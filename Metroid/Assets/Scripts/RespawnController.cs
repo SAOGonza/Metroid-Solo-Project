@@ -13,6 +13,7 @@ public class RespawnController : MonoBehaviour
     public float waitToRespawn;
 
     private GameObject player;
+    public GameObject deathEffect;
 
     private void Awake()
     {
@@ -58,6 +59,11 @@ public class RespawnController : MonoBehaviour
     IEnumerator RespawnCoroutine()
     {
         player.SetActive(false);
+        if (deathEffect != null) // As long as we have a death effect, instantiate.
+        {
+            Instantiate(deathEffect, player.transform.position, player.transform.rotation);
+        }
+
         yield return new WaitForSeconds(waitToRespawn);
 
         // Reload entire scene to restart level during respawn.
