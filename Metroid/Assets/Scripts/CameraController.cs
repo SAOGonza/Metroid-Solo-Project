@@ -31,5 +31,9 @@ public class CameraController : MonoBehaviour
                 Mathf.Clamp(player.transform.position.y, boundsBox.bounds.min.y + halfHeight, boundsBox.bounds.max.y - halfHeight),
                 transform.position.z);
         }
+        else // Make camera find player at the start of every scene.
+        {
+            player = FindObjectOfType<PlayerController>();
+        }
     }
 }

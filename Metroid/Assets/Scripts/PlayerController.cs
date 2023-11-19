@@ -48,20 +48,31 @@ public class PlayerController : MonoBehaviour
     // References to PlayerAbilityTracker script
     private PlayerAbilityTracker abilities;
 
+    // Variables for entering the doors.
+    public bool canMove;
+
     // Start is called before the first frame update
     void Start()
     {
         abilities = GetComponent<PlayerAbilityTracker>();
+        canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-        JumpPlayer();
+        if (canMove)
+        {
+            MovePlayer();
+            JumpPlayer();
+            HandleFire();
+            HandleBallMode();
+        }
+        else
+        {
+            playerRb.velocity = Vector2.zero;
+        }
         ControlAnimations();
-        HandleFire();
-        HandleBallMode();
     }
 
     void MovePlayer()
