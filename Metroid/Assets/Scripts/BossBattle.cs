@@ -31,6 +31,10 @@ public class BossBattle : MonoBehaviour
     public GameObject bullet;
     public Transform shotPoint;
 
+    // Win Object variables
+    public GameObject winObjects;
+    private bool battleEnded;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,66 +57,110 @@ public class BossBattle : MonoBehaviour
     {
         theCam.transform.position = Vector3.MoveTowards(theCam.transform.position, camPosition.position, camSpeed * Time.deltaTime);
 
-        // We're in 1st phase.
-        if (BossHealthController.instance.currentHealth > threshold1)
+        if (!battleEnded)
         {
-            Phase1();
-        }
-        else
-        {
-            // Make sure we have a target point in the middle of
-            // phasing to phase 2. Instantly go to phase 2.
-            if (targetPoint == null)
+            // We're in 1st phase.
+            if (BossHealthController.instance.currentHealth > threshold1)
             {
-                targetPoint = theBoss;
-                fadeCounter = fadeOutTime;
-                anim.SetTrigger("vanish");
+                Phase1();
             }
             else
             {
-                if (Vector3.Distance(theBoss.position, targetPoint.position) > .02f) // Check if close to a target point.
+                // Make sure we have a target point in the middle of
+                // phasing to phase 2. Instantly go to phase 2.
+                if (targetPoint == null)
                 {
-                    // Move towards that point.
-                    theBoss.position = Vector3.MoveTowards(theBoss.position, targetPoint.position, moveSpeed * Time.deltaTime);
-
-                    
-                    if (Vector3.Distance(theBoss.position, targetPoint.position) <= .02f) // If boss is within range after we've moved.
-                    {
-                        fadeCounter = fadeOutTime;
-                        anim.SetTrigger("vanish");
-                    }
+                    targetPoint = theBoss;
+                    fadeCounter = fadeOutTime;
+                    anim.SetTrigger("vanish");
                 }
-                else if (fadeCounter > 0) // Boss is fading.
+                else
                 {
-                    fadeCounter -= Time.deltaTime;
-                    if (fadeCounter <= 0) // Boss is now invisible.
+                    if (Vector3.Distance(theBoss.position, targetPoint.position) > .02f) // Check if close to a target point.
                     {
-                        theBoss.gameObject.SetActive(false);
-                        inactiveCounter = inactiveTime;
-                    }
-                }
-                else if (inactiveCounter > 0)
-                {
-                    inactiveCounter -= Time.deltaTime;
-                    if (inactiveCounter <= 0) // Make boss reappear at diff point.
-                    {
-                        theBoss.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+                        // Move towards that point.
+                        theBoss.position = Vector3.MoveTowards(theBoss.position, targetPoint.position, moveSpeed * Time.deltaTime);
 
-                        // Before reactivating the boss, pick a new target point.
-                        // But don't pick the same point.
-                        targetPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-                        // In case we loop forever, set a whileBreaker and keep the original position.
-                        int whileBreaker = 0;
-                        while (targetPoint.position == theBoss.position && whileBreaker < 100)
+                        if (Vector3.Distance(theBoss.position, targetPoint.position) <= .02f) // If boss is within range after we've moved.
                         {
-                            targetPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-                            whileBreaker++;
+                            fadeCounter = fadeOutTime;
+                            anim.SetTrigger("vanish");
                         }
 
-                        theBoss.gameObject.SetActive(true);
+                        shotCounter -= Time.deltaTime;
+                        if (shotCounter <= 0)
+                        {
+                            if (PlayerHealthController.instance.currentHealth > threshold2)
+                            {
+                                shotCounter = timeBetweenShots1;
+                            }
+                            else
+                            {
+                                shotCounter = timeBetweenShots2; // 2nd phase.
+                            }
+
+                            Instantiate(bullet, shotPoint.position, Quaternion.identity);
+                        }
+                    }
+                    else if (fadeCounter > 0) // Boss is fading.
+                    {
+                        fadeCounter -= Time.deltaTime;
+                        if (fadeCounter <= 0) // Boss is now invisible.
+                        {
+                            theBoss.gameObject.SetActive(false);
+                            inactiveCounter = inactiveTime;
+                        }
+                    }
+                    else if (inactiveCounter > 0)
+                    {
+                        inactiveCounter -= Time.deltaTime;
+                        if (inactiveCounter <= 0) // Make boss reappear at diff point.
+                        {
+                            theBoss.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+
+                            // Before reactivating the boss, pick a new target point.
+                            // But don't pick the same point.
+                            targetPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+                            // In case we loop forever, set a whileBreaker and keep the original position.
+                            int whileBreaker = 0;
+                            while (targetPoint.position == theBoss.position && whileBreaker < 100)
+                            {
+                                targetPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+                                whileBreaker++;
+                            }
+
+                            theBoss.gameObject.SetActive(true);
+
+                            // Check phase to set shot cooldowns.
+                            if (PlayerHealthController.instance.currentHealth > threshold2)
+                            {
+                                shotCounter = timeBetweenShots1;
+                            }
+                            else
+                            {
+                                shotCounter = timeBetweenShots2; // 2nd phase.
+                            }
+                        }
                     }
                 }
+            }
+        }
+        else // Battle ended.
+        {
+            fadeCounter -= Time.deltaTime;
+            if (fadeCounter < 0)
+            {
+                if (winObjects != null)
+                {
+                    winObjects.SetActive(true);
+                    winObjects.transform.SetParent(null); // Remove parent so win objects are visible.
+                }
+
+                // Re-enable camera.
+                theCam.enabled = true;
+                gameObject.SetActive(false);
             }
         }
     }
@@ -163,6 +211,22 @@ public class BossBattle : MonoBehaviour
 
     public void EndBattle()
     {
-        gameObject.SetActive(false);
+        battleEnded = true;
+
+        fadeCounter = fadeOutTime;
+        anim.SetTrigger("vanish");
+
+        // Don't shoot boss anymore.
+        theBoss.GetComponent<Collider2D>().enabled = false;
+
+        // Remove any bullets from boss that are currently active.
+        BossBullet[] bullets = FindObjectsOfType<BossBullet>();
+        if (bullets.Length > 0)
+        {
+            foreach (BossBullet bb in bullets)
+            {
+                Destroy(bb.gameObject);
+            }
+        }
     }
 }
