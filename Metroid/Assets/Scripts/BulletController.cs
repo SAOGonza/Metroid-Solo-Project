@@ -32,6 +32,12 @@ public class BulletController : MonoBehaviour
             other.GetComponent<EnemyHealthController>().DamageEnemy(damageAmount);
         }
 
+        // Check if bullet hit boss.
+        if (other.tag == "Boss")
+        {
+            BossHealthController.instance.TakeDamage(damageAmount);
+        }
+
         // Check if bullet hit wall.
         if (impactEffect != null)
         {
