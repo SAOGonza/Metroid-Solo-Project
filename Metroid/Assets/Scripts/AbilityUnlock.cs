@@ -55,6 +55,8 @@ public class AbilityUnlock : MonoBehaviour
             // Destroy text and ability pickup GameObject.
             Destroy(unlockText.transform.parent.gameObject, 5.0f);
             Destroy(gameObject);
+
+            AudioManager.instance.PlaySFX(5);
         }
     }
 }

@@ -50,6 +50,9 @@ public class BossBattle : MonoBehaviour
 
         // When the boss spawns in, wait 1 sec before firing a shot.
         shotCounter = timeBetweenShots1;
+
+        // Play boss music.
+        AudioManager.instance.PlayBossMusic();
     }
 
     // Update is called once per frame
@@ -161,6 +164,10 @@ public class BossBattle : MonoBehaviour
                 // Re-enable camera.
                 theCam.enabled = true;
                 gameObject.SetActive(false);
+
+
+                // Turn off boss music.
+                AudioManager.instance.PlayLevelMusic();
             }
         }
     }

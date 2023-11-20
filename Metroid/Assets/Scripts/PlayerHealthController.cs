@@ -89,10 +89,13 @@ public class PlayerHealthController : MonoBehaviour
                 currentHealth = 0;
 
                 RespawnController.instance.Respawn();
+
+                AudioManager.instance.PlaySFX(8);
             }
             else // Make player invincible.
             {
                 FlashPlayer();
+                AudioManager.instance.PlaySFXAdjusted(11);
             }
 
             UIController.instance.UpdateHealth(currentHealth, maxHealth);

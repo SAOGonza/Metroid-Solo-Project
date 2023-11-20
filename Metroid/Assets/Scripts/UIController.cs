@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class UIController : MonoBehaviour
     public Image fadeScreen;
     public float fadeSpeed = 2f;
     private bool fadingToBlack, fadingFromBlack;
+
+    // Main Menu UI
+    public string mainMenuScene;
+    public GameObject pauseScreen;
 
     public void Awake()
     {
@@ -56,6 +61,12 @@ public class UIController : MonoBehaviour
                 fadingFromBlack = false;
             }
         }
+
+        // Check for pause
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseUnPause();
+        }
     }
 
     public void UpdateHealth(int currentHealth, int maxHealth)
@@ -74,5 +85,37 @@ public class UIController : MonoBehaviour
     {
         fadingFromBlack = true;
         fadingToBlack = false;
+    }
+
+    public void PauseUnPause()
+    {
+        if (!pauseScreen.activeSelf)
+        {
+            pauseScreen.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            pauseScreen.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+
+        // Destroy all objects on DoNotDestroyOnLoad.
+        Destroy(PlayerHealthController.instance.gameObject);
+        PlayerHealthController.instance = null; // Delete the data
+
+        Destroy(RespawnController.instance.gameObject);
+        RespawnController.instance = null; // Delete the data
+
+        // Already in UI Controller.
+        instance = null;
+        Destroy(gameObject);
+
+        SceneManager.LoadScene(mainMenuScene);
     }
 }

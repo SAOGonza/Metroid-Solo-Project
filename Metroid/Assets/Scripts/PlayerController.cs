@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canMove)
+        if (canMove && Time.timeScale != 0)
         {
             MovePlayer();
             JumpPlayer();
@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviour
                 dashCounter = dashTime;
 
                 ShowAfterImage();
+
+                AudioManager.instance.PlaySFXAdjusted(7);
             }
         }
 
@@ -144,11 +146,13 @@ public class PlayerController : MonoBehaviour
             if (isOnGround)
             {
                 canDoubleJump = true;
+                AudioManager.instance.PlaySFXAdjusted(12);
             }
             else
             {
                 canDoubleJump = false;
                 anim.SetTrigger("doubleJump");
+                AudioManager.instance.PlaySFXAdjusted(9);
             }
 
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
@@ -172,6 +176,8 @@ public class PlayerController : MonoBehaviour
                     // Become ball.
                     ball.SetActive(true);
                     standing.SetActive(false);
+
+                    AudioManager.instance.PlaySFX(6);
                 }
             }
             else
@@ -197,6 +203,8 @@ public class PlayerController : MonoBehaviour
                     // Stand up.
                     standing.SetActive(true);
                     ball.SetActive(false);
+
+                    AudioManager.instance.PlaySFX(10);
                 }
             }
             else
@@ -234,11 +242,14 @@ public class PlayerController : MonoBehaviour
                 Instantiate(shotToFire, shotPoint.position, shotPoint.rotation).moveDir = new Vector2(transform.localScale.x, 0f);
 
                 anim.SetTrigger("shotFired");
+
+                AudioManager.instance.PlaySFXAdjusted(14);
             }
 
             else if (ball.activeSelf && abilities.canDropBomb)
             {
                 Instantiate(bomb, bombPoint.position, bombPoint.rotation);
+                AudioManager.instance.PlaySFXAdjusted(13);
             }
         }
     }

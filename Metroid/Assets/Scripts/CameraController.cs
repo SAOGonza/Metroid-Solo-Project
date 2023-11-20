@@ -18,6 +18,9 @@ public class CameraController : MonoBehaviour
         // Set camera to stay within the bounds.
         halfHeight = Camera.main.orthographicSize;
         halfWidth = halfHeight * Camera.main.aspect;
+
+        // Play level music.
+        AudioManager.instance.PlayLevelMusic();
     }
 
     // Update is called once per frame

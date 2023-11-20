@@ -23,6 +23,9 @@ public class BossBullet : MonoBehaviour
 
         // Set rotation of where the bullet will fly towards.
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        // Play Fireball audio
+        AudioManager.instance.PlaySFXAdjusted(2);
     }
 
     // Update is called once per frame

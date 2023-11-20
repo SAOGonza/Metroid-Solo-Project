@@ -22,6 +22,8 @@ public class HealthPickup : MonoBehaviour
 
             // Destroy health pickup.
             Destroy(gameObject);
+
+            AudioManager.instance.PlaySFX(5);
         }
     }
 }

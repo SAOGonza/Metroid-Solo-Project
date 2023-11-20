@@ -35,6 +35,12 @@ public class BossHealthController : MonoBehaviour
             // Boss has ran out of health. Tell BossBattle.cs to end.
             currentHealth = 0;
             theBoss.EndBattle();
+
+            AudioManager.instance.PlaySFX(0);
+        }
+        else
+        {
+            AudioManager.instance.PlaySFX(1);
         }
 
         // Update boss HP.
